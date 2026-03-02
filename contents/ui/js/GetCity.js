@@ -10,7 +10,7 @@ function getNameCity(latitude, longitud, language, callback) {
     req.open("GET", url, true); // true = asynchronous request
 
     // Identify the application (required by Nominatim usage policy)
-    req.setRequestHeader("User-Agent", "PlasmoidTest/1.0 (your@email.com)");
+    req.setRequestHeader("User-Agent", "Plasmoid");
     req.setRequestHeader("Accept", "application/json");
 
     // Optional timeout for safety
