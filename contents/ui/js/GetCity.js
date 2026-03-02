@@ -9,6 +9,13 @@ function getNameCity(latitude, longitud, language, callback) {
     let req = new XMLHttpRequest();
     req.open("GET", url, true); // true = asynchronous request
 
+    // Identify the application (required by Nominatim usage policy)
+    req.setRequestHeader("User-Agent", "PlasmoidTest/1.0 (your@email.com)");
+    req.setRequestHeader("Accept", "application/json");
+
+    // Optional timeout for safety
+    req.timeout = 10000;
+
     // Handle state changes for the request
     req.onreadystatechange = function () {
         // Proceed only when request is complete
@@ -18,10 +25,16 @@ function getNameCity(latitude, longitud, language, callback) {
                 try {
                     // Parse the response JSON
                     let data = JSON.parse(req.responseText);
-                    let address = data.address;
+
+                    // Safely access address object
+                    let address = data.address || {};
 
                     // Extract location components
-                    let city = address.city;
+                    let city = address.city
+                        || address.town
+                        || address.village
+                        || address.hamlet;
+
                     let county = address.county;
                     let state = address.state;
 
@@ -31,14 +44,18 @@ function getNameCity(latitude, longitud, language, callback) {
 
                     // Log and return the result via callback
                     console.log("Location:", full);
-                    callback(full);
+                    callback(full || "Unknown");
+
                 } catch (e) {
                     // Handle any JSON parsing errors
                     console.error("Error parsing the response JSON: ", e);
+                    console.error("Response:", req.responseText);
                 }
             } else {
                 // Handle non-200 HTTP responses
-                console.error(`city failed`);
+                console.error("city failed");
+                console.error("HTTP Status:", req.status);
+                console.error("Response:", req.responseText);
             }
         }
     };
