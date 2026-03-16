@@ -12,7 +12,6 @@ Item {
     property int spacingElements: 5
 
     // Dynamic width of left panel based on weather icon and temperature text
-    // Dynamic width of left panel
     property int minLeftPanelWidth: 120
     property int widthOfLeftPanel: {
         const baseWidth = logo.width + text.implicitWidth + 20

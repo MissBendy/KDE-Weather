@@ -98,6 +98,7 @@ Item {
                     height: width
                     source: model.icon
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.rightMargin: 2
                 }
 
 
@@ -106,7 +107,7 @@ Item {
                     id: forecastText
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredWidth: parent.width * 0.25
-                    Layout.rightMargin: 4
+                    Layout.rightMargin: parent.width * 0.04
                     color: Kirigami.Theme.textColor
                     level: 5
 
@@ -114,36 +115,35 @@ Item {
                         id: tempRow
                         anchors.fill: parent
                         anchors.verticalCenter: parent.verticalCenter
-                        spacing: 0
+                        spacing: 4
+
+                        property int tempWidth: Math.max(maxTempLabel.implicitWidth, minTempLabel.implicitWidth)
 
                         // Max temperature
-                        Item {
-                            Layout.preferredWidth: 20
+                        Kirigami.Heading {
+                            id: maxTempLabel
+                            text: model.maxTemp + "°"
+                            level: 5
                             Layout.alignment: Qt.AlignVCenter
-                            Kirigami.Heading {
-                                text: model.maxTemp + "°"
-                                level: 5
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
+                            Layout.preferredWidth: tempRow.implicitWidth
+                            horizontalAlignment: Text.AlignRight
                         }
 
                         // Temperature Separator "/"
                         Kirigami.Heading {
                             text: "/"
                             level: 5
-                            Layout.preferredWidth: 8
-                            Layout.alignment: Qt.AlignVCenter
+                            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                         }
 
                         // Min temperature
-                        Item {
-                            Layout.preferredWidth: 20
+                        Kirigami.Heading {
+                            id: minTempLabel
+                            text: model.minTemp + "°"
+                            level: 5
                             Layout.alignment: Qt.AlignVCenter
-                            Kirigami.Heading {
-                                text: model.minTemp + "°"
-                                level: 5
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
+                            Layout.preferredWidth: tempRow.implicitWidth
+                            horizontalAlignment: Text.AlignLeft
                         }
                     }
                 }
