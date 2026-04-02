@@ -136,7 +136,7 @@ Item {
   property string longitudIP: completeCoordinates.substring(completeCoordinates.indexOf(' ') + 1)
   // Day/night state and city name
   property bool isDay: determinateDay.isDayForHour(new Date().getHours())
-  property string city: "unk"
+  property string city: "null"
   property string prefixIcon: determinateDay.isDayForHour(new Date().getHours()) ? "" : "-night"
 
   Timer {
@@ -150,18 +150,29 @@ Item {
   function checkOnlineAndUpdate() {
     var req = new XMLHttpRequest()
     req.open("GET", "https://www.google.com/generate_204", true)
+
     req.onreadystatechange = function () {
       if (req.readyState === XMLHttpRequest.DONE) {
+
         if (req.status >= 200 && req.status < 400) {
-          console.log("Network online, fetching weather")
-          updateWeather(1)           // fetch weather
-          onlineRetryTimer.stop()    // stop retrying once successful
+          // console.log("Network online, fetching weather")
+
+          onlineRetryTimer.stop()
+
+          // allow network stack to stabilize after boot/login
+          Qt.callLater(function() {
+            updateWeather(1)
+          })
+
         } else {
-          console.log("Network Offline, will retry in 5s")
-          if (!onlineRetryTimer.running) onlineRetryTimer.start()
+          // console.log("Network Offline, will retry in 5s")
+
+          if (!onlineRetryTimer.running)
+            onlineRetryTimer.start()
         }
       }
     }
+
     req.send()
   }
 
@@ -201,7 +212,7 @@ Item {
   // Resolve city name from coordinates
   function getCityFunction() {
     if (!latitude || !longitud || latitude === "0" || longitud === "0") {
-      console.error("Invalid coordinates for city request");
+      // console.error("Invalid coordinates for city request");
       return;
     }
     GetCity.getNameCity(latitude, longitud, languageCode, function(result) {
@@ -246,7 +257,7 @@ Item {
         break;
 
       default:
-        console.error("Invalid weather model:", weatherModel);
+        // console.error("Invalid weather model:", weatherModel);
         return;
     }
      // console.log("Weather model:", apiModel);
@@ -588,7 +599,7 @@ Item {
       if (currentMinute === lastMinuteUpdated) return;
       lastMinuteUpdated = currentMinute;
 
-      console.log("Weather update triggered");
+      // console.log("Weather update triggered");
 
       if (dataweather && dataweather !== "0") {
         updateWeather(2);
@@ -611,13 +622,13 @@ Item {
         const currentCode = safeInt(dataweather, 16);
         iconCurrent = assignIcon(currentCode, isDayNow);
 
-        console.log("Day/night status updated:", isDayNow ? "Day" : "Night");
-        console.log("Updated left panel to:",root.leftPanelColor === root.dayColor ? "dayColor" : "nightColor");
-        console.log("Current icon:", iconCurrent);
+        // console.log("Day/night status updated:", isDayNow ? "Day" : "Night");
+        // console.log("Updated left panel to:",root.leftPanelColor === root.dayColor ? "dayColor" : "nightColor");
+        // console.log("Current icon:", iconCurrent);
 
         // Current weather
         tempCurrent = temperature(safeInt(dataweather, 1));
-        console.log("Updated current temperature:", tempCurrent);
+        // onsole.log("Updated current temperature:", tempCurrent);
 
         // Compute next forecast hours before emitting sync
         const forecastHoursArr = [];
@@ -637,7 +648,7 @@ Item {
             return hour.toString().padStart(2, "0");
           }
         });
-        console.log("Next forecast hours:", formattedHours.join(", "));
+        // console.log("Next forecast hours:", formattedHours.join(", "));
 
         // Hourly forecast
         iconHours = [];
@@ -654,7 +665,7 @@ Item {
           tempHours.push(temperature(temp));
           iconHours.push(assignIcon(code, isDayAtTime) || "weather-unknown");
 
-          console.log(`Hourly data +${i + 1}h => temp=${tempHours[i]}, icon=${iconHours[i]}`);
+          // console.log(`Hourly data +${i + 1}h => temp=${tempHours[i]}, icon=${iconHours[i]}`);
         }
 
         // Temperatures for coming days
@@ -683,12 +694,9 @@ Item {
         mintempTwoDaysAfterTomorrow = temperature(safeInt(dataweather, 5));
         maxtempTwoDaysAfterTomorrow = temperature(safeInt(dataweather, 12));
 
-        console.log(
-          `Updated daily min/max for today: ${mintempToday}/${maxtempToday}`);
-        console.log(
-          `Updated daily min/max for tomorrow: ${mintempTomorrow}/${maxtempTomorrow}`);
-        console.log(
-          `Updated daily min/max for day after tomorrow: ${mintempDayAftertomorrow}/${maxtempDayAftertomorrow}`);
+        // console.log(`Updated daily min/max for today: ${mintempToday}/${maxtempToday}`);
+        // console.log(`Updated daily min/max for tomorrow: ${mintempTomorrow}/${maxtempTomorrow}`);
+        // console.log(`Updated daily min/max for day after tomorrow: ${mintempDayAftertomorrow}/${maxtempDayAftertomorrow}`);
 
         // Weather codes for coming days
         oneIcon = assignIcon(safeInt(dataweather, 27), true);
@@ -705,18 +713,15 @@ Item {
         codeweatherTwoDaysAfterTomorrow = safeString(dataweather, 30);
 
 
-        console.log(
-          `Updated daily icon for tomorrow: ${assignIcon(safeInt(dataweather, 28), true)}`);
-        console.log(
-          `Updated daily icon for day after tomorrow: ${assignIcon(safeInt(dataweather, 29), true)}`);
-        console.log(
-          `Updated daily icon for two days after tomorrow: ${assignIcon(safeInt(dataweather, 30), true)}`);
+        // console.log(`Updated daily icon for tomorrow: ${assignIcon(safeInt(dataweather, 28), true)}`);
+        // console.log(`Updated daily icon for day after tomorrow: ${assignIcon(safeInt(dataweather, 29), true)}`);
+        // console.log(`Updated daily icon for two days after tomorrow: ${assignIcon(safeInt(dataweather, 30), true)}`);
 
         // signal to main.qml for sync
         weatherSynced()
 
       } else {
-        console.warn("Weather update skipped: no dataweather available");
+        // console.warn("Weather update skipped: no dataweather available");
       }
     }
   }
@@ -724,7 +729,7 @@ Item {
   // Trigger when current weather changes
   onDataweatherChanged: {
     if (isWeatherReady() && !weatherUpdateTimer.running) {
-      console.log("Weather and forecast ready, starting timer");
+      // console.log("Weather and forecast ready, starting timer");
       weatherUpdateTimer.start();
     }
   }

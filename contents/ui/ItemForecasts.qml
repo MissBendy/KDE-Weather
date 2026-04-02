@@ -51,6 +51,7 @@ Item {
                         source: model.icon
                         width: Kirigami.Units.iconSizes.medium
                         height: width
+                        roundToIconSize: false
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
 
@@ -77,74 +78,61 @@ Item {
         // Repeat for each daily forecast entry
         Repeater {
             model: forecastFullModel
-            delegate: RowLayout {
+            delegate: Item {
                 width: parent.width
+                height: Kirigami.Units.iconSizes.medium
 
-                // Day of the week
+                // Day label - left column
                 Kirigami.Heading {
                     id: day
                     text: model.date
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.preferredWidth: parent.width * 0.4
-                    Layout.leftMargin: 4    // distance from left edge
+                    anchors.left: parent.left
+                    anchors.leftMargin: 4
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width * 0.4
                     color: Kirigami.Theme.textColor
                     level: 5
                 }
 
-                // Weather icon for the day
+                // Icon - middle column, explicitly centered
                 Kirigami.Icon {
-                    id: logo
+                    source: model.icon
                     width: Kirigami.Units.iconSizes.medium
                     height: width
-                    source: model.icon
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    Layout.rightMargin: 2
+                    roundToIconSize: false
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
+                // Temperature - right column
+                RowLayout {
+                    id: tempRow
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.width * 0.04
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 4
 
-                // Temperature display
-                Kirigami.Heading {
-                    id: forecastText
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.preferredWidth: parent.width * 0.25
-                    Layout.rightMargin: parent.width * 0.04
-                    color: Kirigami.Theme.textColor
-                    level: 5
+                    Kirigami.Heading {
+                        id: maxTempLabel
+                        text: model.maxTemp + "°"
+                        level: 5
+                        horizontalAlignment: Text.AlignRight
+                        Layout.preferredWidth: Kirigami.Units.gridUnit * 1
+                    }
 
-                    RowLayout {
-                        id: tempRow
-                        anchors.fill: parent
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: 4
+                    Kirigami.Heading {
+                        text: "/"
+                        level: 5
+                        horizontalAlignment: Text.AlignCenter
+                        Layout.preferredWidth: implicitWidth
+                    }
 
-                        property int tempWidth: Math.max(maxTempLabel.implicitWidth, minTempLabel.implicitWidth)
-
-                        // Max temperature
-                        Kirigami.Heading {
-                            id: maxTempLabel
-                            text: model.maxTemp + "°"
-                            level: 5
-                            Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: tempRow.implicitWidth
-                            horizontalAlignment: Text.AlignRight
-                        }
-
-                        // Temperature Separator "/"
-                        Kirigami.Heading {
-                            text: "/"
-                            level: 5
-                            Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        }
-
-                        // Min temperature
-                        Kirigami.Heading {
-                            id: minTempLabel
-                            text: model.minTemp + "°"
-                            level: 5
-                            Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredWidth: tempRow.implicitWidth
-                            horizontalAlignment: Text.AlignLeft
-                        }
+                    Kirigami.Heading {
+                        id: minTempLabel
+                        text: model.minTemp + "°"
+                        level: 5
+                        horizontalAlignment: Text.AlignLeft
+                        Layout.preferredWidth: Kirigami.Units.gridUnit * 1
                     }
                 }
             }

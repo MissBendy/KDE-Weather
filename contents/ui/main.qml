@@ -124,7 +124,7 @@ PlasmoidItem {
     Connections {
         target: weatherData
         function onWeatherSynced() {
-            console.log("Weather update synced")
+            // console.log("Weather update synced")
             forms()
         }
     }

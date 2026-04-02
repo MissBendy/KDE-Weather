@@ -79,7 +79,7 @@ function getWeatherData(latitud, longitud, hours, model, callback) {
                 // Execute callback with the full combined string
                 callback(full);
             } else {
-                console.error(`Error in request: weathergeneral ${req.status}`);
+                // console.error(`Error in request: weathergeneral ${req.status}`);
             }
         }
     };

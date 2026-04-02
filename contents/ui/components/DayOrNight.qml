@@ -80,7 +80,7 @@ Item {
                 sunrise = cacheSunrise
                 sunset  = cacheSunset
                 updateDayStatus()
-                console.log("Using cached sunrise/sunset:", sunriseText, sunsetText)
+                // console.log("Using cached sunrise/sunset:", sunriseText, sunsetText)
                 return
             }
 
@@ -106,14 +106,14 @@ Item {
                             lastFetchTime = new Date()
 
                             updateDayStatus()
-                            console.log("Fetched sunrise/sunset:", sunriseText, sunsetText)
+                            // console.log("Fetched sunrise/sunset:", sunriseText, sunsetText)
                     } else {
-                        console.log("Sun API error:", response.status)
+                        // console.log("Sun API error:", response.status)
                     }
                 }
             }
             xhr.onerror = function() {
-                console.log("Network error fetching sun data")
+                // console.log("Network error fetching sun data")
             }
             xhr.send()
     }

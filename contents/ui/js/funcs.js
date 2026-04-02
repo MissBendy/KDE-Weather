@@ -10,7 +10,7 @@ function addDay(a) {
     var dateFormatted = Qt.formatDateTime(dateActual, "dddd");
 
     // Log the formatted result for debugging
-    console.log("Date with one day added:", dateFormatted);
+    // console.log("Date with one day added:", dateFormatted);
 
     // Return the weekday name as a string
     return dateFormatted;

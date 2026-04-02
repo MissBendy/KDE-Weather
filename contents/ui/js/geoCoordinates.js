@@ -22,18 +22,18 @@ function obtainCoordinates(callback) {
 
                     // Combine values into a readable string
                     let full = `${latitud}, ${longitud}`;
-                    console.log(`Coordinates obtained: ${full}`);
+                    // console.log(`Coordinates obtained: ${full}`);
 
                     // Pass coordinates back through the callback
                     callback(full);
                 } catch (error) {
                     // Handle malformed or unexpected JSON responses
-                    console.error("Error processing response JSON:", error);
+                    // console.error("Error processing response JSON:", error);
                     callback(null); // Return null on parsing failure
                 }
             } else {
                 // Handle HTTP errors
-                console.error(`Request error: ${req.status}`);
+                // console.error(`Request error: ${req.status}`);
                 callback(null); // Return null on failed request
             }
         }
@@ -41,7 +41,7 @@ function obtainCoordinates(callback) {
 
     // Handle network-level failures (no connection, DNS, etc.)
     req.onerror = function () {
-        console.error("Network error while trying to obtain coordinates.");
+        // console.error("Network error while trying to obtain coordinates.");
         callback(null);
     };
 

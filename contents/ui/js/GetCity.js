@@ -43,31 +43,31 @@ function getNameCity(latitude, longitud, language, callback) {
                     let full = city ? city : state ? state : county;
 
                     // Log and return the result via callback
-                    console.log("Location:", full);
+                    // console.log("Location:", full);
                     callback(full || "Unknown");
 
                 } catch (e) {
                     // Handle any JSON parsing errors
-                    console.error("Error parsing the response JSON: ", e);
-                    console.error("Response:", req.responseText);
+                    // console.error("Error parsing the response JSON: ", e);
+                    // console.error("Response:", req.responseText);
                 }
             } else {
                 // Handle non-200 HTTP responses
-                console.error("city failed");
-                console.error("HTTP Status:", req.status);
-                console.error("Response:", req.responseText);
+                // console.error("city failed");
+                // console.error("HTTP Status:", req.status);
+                // console.error("Response:", req.responseText);
             }
         }
     };
 
     // Triggered if the network request itself fails
     req.onerror = function () {
-        console.error("The request failed");
+        // console.error("The request failed");
     };
 
     // Triggered if the request exceeds the timeout period
     req.ontimeout = function () {
-        console.error("The request exceeded the waiting time");
+        // console.error("The request exceeded the waiting time");
     };
 
     // Send the HTTP request
