@@ -12,7 +12,7 @@
         "Icon": "weather",
         "Id": "KDE.Weather",
         "License": "GPL-2.0+",
-        "Name": "KDE Weather",
+        "Name": "KDE Weather"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
 }
