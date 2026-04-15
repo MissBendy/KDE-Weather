@@ -74,7 +74,7 @@ Item {
                 text: wrapper.currentTemp + "°"
                 color: Kirigami.Theme.textColor
                 font.weight: Font.Normal
-                font.pointSize: 30
+                font.pointSize: 28
                 font.family: fontfamily !== "" ? fontfamily : font.family
                 anchors.verticalCenter: parent.verticalCenter
             }
