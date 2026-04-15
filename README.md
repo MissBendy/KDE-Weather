@@ -1,4 +1,4 @@
-# NoriWeather
+# KDE Weather
 
 Provides hourly and daily weather forecasts with:
 
