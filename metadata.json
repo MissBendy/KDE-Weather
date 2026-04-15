@@ -6,7 +6,7 @@
                 "Name": "MissBendy"
             }
         ],
-        "BugReportUrl": "https://github.com/MissBendy/NoriWeather/issues",
+        "BugReportUrl": "https://github.com/MissBendy/KDE-Weather/issues",
         "Category": "Environment and Weather",
         "Description": "Provides hourly and daily weather forecasts",
         "Icon": "weather",
