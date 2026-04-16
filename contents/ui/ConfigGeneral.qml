@@ -253,14 +253,6 @@ Item {
 
                     wrapMode: Text.Wrap
                 }
-
-                Label {
-                    text: i18n("Note: size may be reduced if the panel is not thick enough.")
-                    font: Kirigami.Theme.smallFont
-                    textFormat: Text.PlainText
-                    wrapMode: Text.WordWrap
-                    Layout.fillWidth: true
-                }
             }
         }
 
